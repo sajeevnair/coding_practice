@@ -2,9 +2,127 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Hexadecimal operations</title>
+    <style>
+        div.center {
+            margin-left: auto;
+            margin-right: auto;
+            width: 10em;
+        }
+    </style>
 </head>
 <body>
 
+<div class="center">
+    <h1>Hexadecimal operations</h1>
+
+    <div>
+    <section>
+        <header>
+            <h3> 32 bit converter</h3>
+        </header>
+        <br/>
+
+        <form onsubmit="return convert()">
+            <input id="decimalInput" name="decimalInput" type="text" pattern="[0-9]*" placeholder="Decimal">
+            <input id="hexaDecimalInput" name="hexaDecimalInput" type="text" pattern="[a-fA-F0-9]*"
+                   placeholder="Hexadecimal"><br/>
+
+            <input type="radio" id="decimalToHex" name="convertType"> <label for="decimalToHex">Hex</label> <br/>
+            <input type="radio" id="hexToDecimal" name="convertType"> <label for="hexToDecimal">Decimal</label> <br/>
+
+            <input type="submit" value="Convert">
+            <input type="reset">
+        </form>
+    </section>
+</div>
+<hr/>
+<div>
+    <section>
+        <header>
+            <h3> 32 bit calculator</h3>
+        </header>
+        <br/>
+
+        <form onsubmit="return calculate()">
+            <input id="hexaDecimalInput1" name="hexaDecimalInput1" type="text" pattern="[a-fA-F0-9]*"
+                   placeholder="Hexadecimal 1">
+            <input id="hexaDecimalInput2" name="hexaDecimalInput2" type="text" pattern="[a-fA-F0-9]*"
+                   placeholder="Hexadecimal 2"><br/>
+
+            <input type="radio" id="add" name="operator"> <label for="add">Add</label> <br/>
+            <input type="radio" id="subtract" name="operator"> <label for="subtract">Subtract</label> <br/>
+            <input type="radio" id="multiply" name="operator"> <label for="multiply">Multiply</label> <br/>
+            <input type="radio" id="divide" name="operator"> <label for="divide">Divide</label> <br/>
+
+            <input id="hexaDecimalInputAns" name="hexaDecimalInputAns" type="text" pattern="[a-fA-F0-9\-]*"
+                   placeholder="Answer">
+            <input id="hexaDecimalInputRemainder" name="hexaDecimalInputRemainder" type="text" pattern="[a-fA-F0-9]*"
+                   placeholder="Remainder"><br/>
+
+            <input type="submit" value="Calculate">
+            <input type="reset">
+        </form>
+    </section>
+</div>
+
+</div>
+
+<script>
+    function convert() {
+
+        var decimalInput = (document.getElementById("decimalInput"));
+        var hexInput = (document.getElementById("hexaDecimalInput"));
+        var hexRadioButton = (document.getElementById("decimalToHex"));
+        var decimalRadioButton = (document.getElementById("hexToDecimal"));
+        if (hexRadioButton.checked)
+            hexInput.value = decimalToHex(parseInt(decimalInput.value));
+        if (decimalRadioButton.checked)
+            decimalInput.value = hexToDecimal(hexInput.value);
+
+        return false;
+    }
+
+    function calculate(){
+        var hexInput1 = (document.getElementById("hexaDecimalInput1"));
+        var hexInput2 = (document.getElementById("hexaDecimalInput2"));
+        var hexInputAns = (document.getElementById("hexaDecimalInputAns"));
+        var hexInputRemainder = (document.getElementById("hexaDecimalInputRemainder"));
+        var addRadioButton = (document.getElementById("add"));
+        var subtractRadioButton = (document.getElementById("subtract"));
+        var multiplyRadioButton = (document.getElementById("multiply"));
+        var divideRadioButton = (document.getElementById("divide"));
+
+        var decimal1 = hexToDecimal(hexInput1.value);
+        var decimal2 = hexToDecimal(hexInput2.value);
+        var decimalAns = 0;
+        var decimalRemainder = 0;
+        if(addRadioButton.checked){
+            decimalAns = decimal1 + decimal2;
+        }
+        if(subtractRadioButton.checked){
+            decimalAns = decimal1 - decimal2;
+        }
+        if(multiplyRadioButton.checked){
+            decimalAns = decimal1 * decimal2;
+        }
+        if(divideRadioButton.checked){
+            decimalAns = Math.round(decimal1 / decimal2);
+            decimalRemainder = decimal1 % decimal2;
+        }
+
+        hexInputAns.value = decimalToHex(decimalAns);
+        hexInputRemainder.value = decimalToHex(decimalRemainder);
+        return false;
+
+    }
+    function decimalToHex(decimal) {
+        return decimal.toString(16).toUpperCase();
+    }
+    function hexToDecimal(hex) {
+        return parseInt(hex, 16);
+    }
+
+</script>
 </body>
 </html>
